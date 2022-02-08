@@ -9,19 +9,20 @@ services:
             - 443:443
             - 80:80
         volumes:
-            - type: volume
-              source: wp_volume
-              target: /wp_volume_target
+            - wp_volume:/shared_data
         restart: always
 
     wordpress-php:
         container_name: wp_php
         build: ./requirements/wordpress
         volumes:
-            - type: volume
-              source: wp_volume
-              target: /wp_volume_target
+            - wp_volume:/shared_data
         restart: always
 
 volumes:
     wp_volume:
+        driver: local
+        driver_opts:
+            type: 'none'
+            o: 'bind'
+            device: ./wp_volume
