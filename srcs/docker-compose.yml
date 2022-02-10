@@ -5,11 +5,15 @@ services:
     nginx:
         container_name: nginx
         build: ./requirements/nginx
+        depends_on:
+            - wordpress-php
         ports:
             - 443:443
             - 80:80
         volumes:
-            - wp_volume:/shared_data
+            - wp_volume:/var/www/
+        networks:
+            - inception_network
         restart: always
 
     wordpress-php:
@@ -17,6 +21,10 @@ services:
         build: ./requirements/wordpress
         volumes:
             - wp_volume:/shared_data
+        ports:
+            - 9000:9000
+        networks:
+            - inception_network
         restart: always
 
 volumes:
@@ -25,4 +33,7 @@ volumes:
         driver_opts:
             type: 'none'
             o: 'bind'
-            device: ./wp_volume
+            device: ${PWD}/wp_volume
+
+networks:
+    inception_network:

@@ -1,2 +1,0 @@
-coucou from wp container
-coucou from nginx container
