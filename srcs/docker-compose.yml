@@ -11,7 +11,7 @@ services:
             - 443:443
             - 80:80
         volumes:
-            - wp_volume:/var/www/
+            - wp_volume:/var/www/wordpress
         networks:
             - inception_network
         restart: always
@@ -23,9 +23,22 @@ services:
             - wp_volume:/shared_data
         ports:
             - 9000:9000
+            - 3306:3306
         networks:
             - inception_network
         restart: always
+
+    mariadb:
+        container_name: mariadb
+        build: ./requirements/mariadb
+        volumes:
+            - mariadb_volume:/shared_data
+        networks:
+            - inception_network
+        ports:
+            - 3306:3306
+        restart: always
+
 
 volumes:
     wp_volume:
@@ -34,6 +47,13 @@ volumes:
             type: 'none'
             o: 'bind'
             device: ${PWD}/wp_volume
+
+    mariadb_volume:
+        driver: local
+        driver_opts:
+            type: 'none'
+            o: 'bind'
+            device: ${PWD}/mariadb_volume
 
 networks:
     inception_network:

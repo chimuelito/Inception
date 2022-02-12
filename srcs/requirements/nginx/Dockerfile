@@ -1,6 +1,6 @@
 FROM debian:buster
 
-RUN apt-get update && apt-get install -y nginx && apt-get install -y openssl
+RUN apt-get update && apt-get install -y nginx && apt-get install -y openssl vim
 
 RUN mkdir -p etc/nginx/ssl
 RUN openssl req -newkey rsa:4096 -x509 -nodes -days 365 \

@@ -1,9 +1,8 @@
 FROM debian:buster
 
-EXPOSE 9000
-
-RUN apt-get update && apt-get install -y wget php-fpm
+RUN apt-get update && apt-get install -y wget php7.3-fpm php php7.3-mysql vim
 RUN wget https://fr.wordpress.org/wordpress-5.9-fr_FR.tar.gz
-RUN tar -xzvf wordpress-5.9-fr_FR.tar.gz && rm wordpress-5.9-fr_FR.tar.gz && cp -r wordpress /shared_data/
-RUN echo coucou >> zob.txt
-CMD tail -f zob.txt
+RUN tar -xzvf wordpress-5.9-fr_FR.tar.gz && rm wordpress-5.9-fr_FR.tar.gz && mv wordpress /shared_data/
+COPY www.conf /etc/php/7.3/fpm/pool.d/www.conf
+COPY setup.sh .
+CMD ["bash", "setup.sh"]
