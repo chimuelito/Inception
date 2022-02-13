@@ -20,24 +20,24 @@ services:
         container_name: wp_php
         build: ./requirements/wordpress
         volumes:
-            - wp_volume:/shared_data
+            - wp_volume:/var/www/wordpress
         ports:
             - 9000:9000
-            - 3306:3306
+           #- 3306
         networks:
             - inception_network
         restart: always
 
-    mariadb:
-        container_name: mariadb
-        build: ./requirements/mariadb
-        volumes:
-            - mariadb_volume:/shared_data
-        networks:
-            - inception_network
-        ports:
-            - 3306:3306
-        restart: always
+        #    mariadb:
+        #container_name: mariadb
+        #build: ./requirements/mariadb
+        #volumes:
+        #    - mariadb_volume:/shared_data
+        #networks:
+        #    - inception_network
+        #ports:
+        #    - 3306:3306
+        #restart: always
 
 
 volumes:
@@ -48,12 +48,12 @@ volumes:
             o: 'bind'
             device: ${PWD}/wp_volume
 
-    mariadb_volume:
-        driver: local
-        driver_opts:
-            type: 'none'
-            o: 'bind'
-            device: ${PWD}/mariadb_volume
+            #    mariadb_volume:
+            #driver: local
+            #driver_opts:
+            #type: 'none'
+            #o: 'bind'
+            #device: ${PWD}/mariadb_volume
 
 networks:
     inception_network:
