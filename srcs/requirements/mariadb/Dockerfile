@@ -1,5 +1,9 @@
 FROM debian:buster
 
-RUN apt-get update && apt-get install -y mariadb-server wget vim
+EXPOSE 3306
 
-CMD ["tail", "-f"]
+RUN apt-get update && apt-get install -y mariadb-server wget vim
+COPY 50-server.cnf /etc/mysql/mariadb.conf.d/
+COPY setup.sh .
+
+CMD ["bash", "setup.sh"]

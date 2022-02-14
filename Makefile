@@ -6,4 +6,4 @@ clean:
 
 fclean: clean
 	docker system prune
-	cd srcs && sudo rm -rf wp_volume mariadb_volume
+	cd srcs && rm -rf wp_volume mariadb_volume
