@@ -24,10 +24,10 @@ echo "$SECURE_MYSQL"
 apt-get -y purge expect
 
 # creating the database for wordpress
-echo "CREATE DATABASE wordpress;" | mysql -u root
-echo "CREATE USER IF NOT EXISTS \"wordpress_user\"@\"%\";" | mysql -u root
-echo "SET password FOR \"wordpress_user\"@\"%\" = password('wordpress');" | mysql -u root
-echo "GRANT ALL PRIVILEGES ON wordpress.* TO \"wordpress_user\"@\"%\" IDENTIFIED BY \"wordpress\";"| mysql -u root
+echo "CREATE DATABASE ${WP_DB_NAME};" | mysql -u root
+echo "CREATE USER IF NOT EXISTS \"${WP_DB_USER}\"@\"%\";" | mysql -u root
+echo "SET password FOR \"${WP_DB_USER}\"@\"%\" = password('${MYSQL_PASSWORD}');" | mysql -u root
+echo "GRANT ALL PRIVILEGES ON ${WP_DB_NAME}.* TO \"${WP_DB_USER}\"@\"%\" IDENTIFIED BY \"${MYSQL_PASSWORD}\";"| mysql -u root
 echo "FLUSH PRIVILEGES;" | mysql -u root
 
 tail -f
