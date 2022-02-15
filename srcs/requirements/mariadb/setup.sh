@@ -26,8 +26,8 @@ apt-get -y purge expect
 # creating the database for wordpress
 echo "CREATE DATABASE wordpress;" | mysql -u root
 echo "CREATE USER IF NOT EXISTS \"wordpress_user\"@\"%\";" | mysql -u root
-echo "SET password FOR \"wordpress\"@\"%\" = password('wordpress');" | mysql -u root
-echo "GRANT ALL PRIVILEGES ON wordpress.* TO \"wordpress_user\"@\"%\" IDENTIFIED BY \"wordpress\""| mysql -u root
+echo "SET password FOR \"wordpress_user\"@\"%\" = password('wordpress');" | mysql -u root
+echo "GRANT ALL PRIVILEGES ON wordpress.* TO \"wordpress_user\"@\"%\" IDENTIFIED BY \"wordpress\";"| mysql -u root
 echo "FLUSH PRIVILEGES;" | mysql -u root
 
 tail -f
