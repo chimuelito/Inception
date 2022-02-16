@@ -2,33 +2,27 @@
 
 service mysql start
 
-apt-get -y install expect
-SECURE_MYSQL=$(expect -c "
-set timeout 10
-spawn mysql_secure_installation
-expect \"Enter current password for root (enter for none):\"
-send \"n\r\"
-expect \"Change the root password?\"
-send \"n\r\"
-expect \"Remove anonymous users?\"
-send \"y\r\"
-expect \"Disallow root login remotely?\"
-send \"y\r\"
-expect \"Remove test database and access to it?\"
-send \"y\r\"
-expect \"Reload privilege tables now?\"
-send \"y\r\"
-expect eof
-")
-echo "$SECURE_MYSQL"
-apt-get -y purge expect
+SCRIPT_DB=script_db.sql
 
-# creating the database for wordpress
-echo "CREATE DATABASE ${WP_DB_NAME};" | mysql -u root
-echo "CREATE USER IF NOT EXISTS \"${WP_DB_USER}\"@\"%\";" | mysql -u root
-echo "SET password FOR \"${WP_DB_USER}\"@\"%\" = password('${MYSQL_PASSWORD}');" | mysql -u root
-echo "GRANT ALL PRIVILEGES ON ${WP_DB_NAME}.* TO \"${WP_DB_USER}\"@\"%\" IDENTIFIED BY \"${MYSQL_PASSWORD}\";"| mysql -u root
-echo "FLUSH PRIVILEGES;" | mysql -u root
+if [[ ! -d $SCRIPT_DB ]]
+then
+	echo "
+	ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+	flush privileges;
+	GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
+	CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+	SET PASSWORD FOR 'root'@'%' = PASSWORD('${MYSQL_ROOT_PASSWORD}');
+	GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION;
+	CREATE USER IF NOT EXISTS '${WP_DB_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
+	SET PASSWORD FOR '${WP_DB_USER}'@'%' = PASSWORD('${MYSQL_PASSWORD}');
+	CREATE DATABASE IF NOT EXISTS ${WP_DB_NAME};
+	GRANT ALL ON ${WP_DB_NAME}.* TO '${WP_DB_USER}'@'%';
+	flush privileges;
+	" > $SCRIPT_DB
 
-service mysql stop
-mysqld
+	cat $SCRIPT_DB | mysql -u root
+fi
+
+#service mysql stop
+#mysqld
+tail -f
