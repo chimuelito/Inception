@@ -30,4 +30,5 @@ echo "SET password FOR \"${WP_DB_USER}\"@\"%\" = password('${MYSQL_PASSWORD}');"
 echo "GRANT ALL PRIVILEGES ON ${WP_DB_NAME}.* TO \"${WP_DB_USER}\"@\"%\" IDENTIFIED BY \"${MYSQL_PASSWORD}\";"| mysql -u root
 echo "FLUSH PRIVILEGES;" | mysql -u root
 
-tail -f
+service mysql stop
+mysqld
