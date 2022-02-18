@@ -24,5 +24,6 @@ then
 fi
 
 #service mysql stop
-#mysqld
+#mysqld  ## doesn't work
 tail -f
+#mysql -u ${WP_DB_USER} ## doesn't work
