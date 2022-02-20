@@ -4,7 +4,7 @@ service mysql start
 
 SCRIPT_DB=script_db.sql
 
-if [[ ! -d $SCRIPT_DB ]]
+if [[ ! -f config_done.flag ]]
 then
 	echo "
 	ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
@@ -15,9 +15,12 @@ then
 	" > $SCRIPT_DB
 
 	mysql < $SCRIPT_DB
+	rm $SCRIPT_DB
+	touch config_done.flag 
 fi
 
 #service mysql stop
 #mysqld  ## doesn't work
-tail -f
 #mysql -u ${WP_DB_USER} ## doesn't work
+#mysql -u root -p 		## nope tampoco
+tail -f
