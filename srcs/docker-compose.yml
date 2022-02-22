@@ -4,7 +4,11 @@ services:
 
     nginx:
         container_name: nginx
-        build: ./requirements/nginx
+        build:
+            context: ./requirements/nginx
+            dockerfile: Dockerfile
+            args:
+                URL: ${URL}
         depends_on:
             - wordpress-php
         ports:

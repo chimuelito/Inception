@@ -10,4 +10,9 @@ RUN openssl req -newkey rsa:4096 -x509 -nodes -days 365 \
 
 COPY default /etc/nginx/sites-available/
 
+ARG URL=$URL
+RUN sed -i "s/localhost/$URL/g" /etc/nginx/sites-available/default
+#&& \
+#	sed -i "s/ _;/${URL};/g" /etc/nginx/sites-available/default
+
 CMD ["nginx", "-g", "daemon off;"]
