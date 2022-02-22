@@ -11,7 +11,7 @@ up:
 
 reload: down up
 
-ifeq ($(uname), Linux)
+ifeq ($(UNAME), Linux)
 fclean: down
 	docker system prune
 	cd srcs && sudo rm -rf wp_volume mariadb_volume
