@@ -27,16 +27,25 @@ services:
             - inception_network
         restart: always
 
+    # Method to have sensitive data not accessible inside running container. But accessible
+    # anyway with 'docker history [--no-trunc] <image id>'
     mariadb:
-        env_file: .env
         container_name: mariadb
-        build: ./requirements/mariadb
+        build:
+            context: ./requirements/mariadb/
+            dockerfile: Dockerfile
+            args:
+                WP_DB_HOST: ${WP_DB_HOST}
+                WP_DB_NAME: ${WP_DB_NAME}
+                WP_DB_USER: ${WP_DB_USER}
+                MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+                MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
         volumes:
             - mariadb_volume:/var/lib/mysql
         networks:
             - inception_network
         restart: always
-
 
 volumes:
     wp_volume:
