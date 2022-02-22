@@ -6,6 +6,11 @@ launch:
 down:
 	cd srcs && docker-compose down -v
 
+up:
+	cd srcs && docker-compose up --d
+
+reload: down up
+
 ifeq ($(uname), Linux)
 fclean: down
 	docker system prune
@@ -16,4 +21,4 @@ fclean: down
 	cd srcs && rm -rf wp_volume mariadb_volume
 endif
 
-.PHONY: launch down fclean
+.PHONY: launch down fclean up down reload

@@ -1,6 +1,6 @@
 FROM debian:buster
 
-EXPOSE 9000 3306
+EXPOSE 9000
 
 RUN apt-get update && apt-get install -y wget php-fpm php-mysql php-cli vim
 RUN mkdir -p /var/www/html
