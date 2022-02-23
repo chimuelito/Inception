@@ -1,7 +1,10 @@
 UNAME=$(shell uname)
 
+include ./srcs/.env
+
 launch:
-	cd srcs && mkdir -p wp_volume && mkdir -p mariadb_volume && docker-compose up --build -d
+	mkdir -p $(VOLUMES_PATH)/$(WP_VOLUME_NAME) $(VOLUMES_PATH)/$(DB_VOLUME_NAME) \
+		&& cd srcs && docker-compose up --build -d
 
 down:
 	cd srcs && docker-compose down -v
@@ -14,11 +17,11 @@ reload: down up
 ifeq ($(UNAME), Linux)
 fclean: down
 	docker system prune
-	cd srcs && sudo rm -rf wp_volume mariadb_volume
+	cd srcs && sudo rm -rf $(VOLUMES_PATH)/$(WP_VOLUME_NAME) $(VOLUMES_PATH)/$(DB_VOLUME_NAME)
 else
 fclean: down
 	docker system prune
-	cd srcs && rm -rf wp_volume mariadb_volume
+	cd srcs && rm -rf $(VOLUMES_PATH)/$(WP_VOLUME_NAME) $(VOLUMES_PATH)/$(DB_VOLUME_NAME)
 endif
 
 .PHONY: launch down fclean up down reload

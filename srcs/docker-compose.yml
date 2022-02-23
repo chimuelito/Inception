@@ -57,14 +57,14 @@ volumes:
         driver_opts:
             type: 'none'
             o: 'bind'
-            device: ${PWD}/wp_volume
+            device: ${VOLUMES_PATH}/${WP_VOLUME_NAME}
 
     mariadb_volume:
          driver: local
          driver_opts:
             type: 'none'
             o: 'bind'
-            device: ${PWD}/mariadb_volume
+            device: ${VOLUMES_PATH}/${DB_VOLUME_NAME}
 
 networks:
     inception_network:
