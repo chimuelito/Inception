@@ -17,11 +17,11 @@ reload: down up
 ifeq ($(UNAME), Linux)
 fclean: down
 	docker system prune
-	cd srcs && sudo rm -rf $(VOLUMES_PATH)/$(WP_VOLUME_NAME) $(VOLUMES_PATH)/$(DB_VOLUME_NAME)
+	cd srcs && sudo rm -rf $(VOLUMES_PATH)
 else
 fclean: down
 	docker system prune
-	cd srcs && rm -rf $(VOLUMES_PATH)/$(WP_VOLUME_NAME) $(VOLUMES_PATH)/$(DB_VOLUME_NAME)
+	cd srcs && rm -rf $(VOLUMES_PATH)
 endif
 
 .PHONY: launch down fclean up down reload
